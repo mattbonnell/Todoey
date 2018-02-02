@@ -9,13 +9,13 @@
 import UIKit
 
 class TodoListViewController: UITableViewController {
-
     
-    let itemArray = ["Eat pancakes", "Slap a chicken", "Buy flour"]
+    var itemArray = ["Eat pancakes", "Slap a chicken", "Buy flour"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
 
     //MARK: Tableview Datasource Methods
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -40,6 +40,52 @@ class TodoListViewController: UITableViewController {
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .delete
+    }
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        itemArray.remove(at: indexPath.row)
+        tableView.reloadData()
+    }
+    
+    //MARK: Add New Items
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            self.itemArray.append(textField.text!)
+            self.tableView.reloadData()
+        }
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            alertTextField.autocorrectionType = .default
+            alertTextField.autocapitalizationType = .sentences
+            textField = alertTextField
+        }
+        
+        alert.addAction(action)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: Delete items
+    
+    @IBAction func editButtonPressed(_ sender: UIBarButtonItem) {
+        if isEditing {
+            setEditing(false, animated: true)
+            sender.title = "Edit"
+        } else {
+            setEditing(true, animated: true)
+            sender.title = "Done"
+        }
     }
     
 }
