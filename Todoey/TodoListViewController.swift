@@ -12,8 +12,14 @@ class TodoListViewController: UITableViewController {
     
     var itemArray = ["Eat pancakes", "Slap a chicken", "Buy flour"]
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+        }
     }
     
 
@@ -49,6 +55,7 @@ class TodoListViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         itemArray.remove(at: indexPath.row)
+        defaults.set(itemArray, forKey: "TodoListArray")
         tableView.reloadData()
     }
     
@@ -61,6 +68,7 @@ class TodoListViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             self.itemArray.append(textField.text!)
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
             self.tableView.reloadData()
         }
         
@@ -76,7 +84,7 @@ class TodoListViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    //MARK: Delete items
+    //MARK: Edit items
     
     @IBAction func editButtonPressed(_ sender: UIBarButtonItem) {
         if isEditing {

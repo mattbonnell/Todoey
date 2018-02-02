@@ -33,6 +33,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Todoey" id="CcO-ZG-GAt">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="94R-11-GLo">
+                            <color key="tintColor" name="controlLightHighlightColor" catalog="System" colorSpace="catalog"/>
+                            <connections>
+                                <action selector="editButtonPressed:" destination="Wmx-Xo-P1a" id="Uwk-nx-Uhn"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="oBD-SI-u5A">
                             <color key="tintColor" name="controlLightHighlightColor" catalog="System" colorSpace="catalog"/>
                             <connections>
